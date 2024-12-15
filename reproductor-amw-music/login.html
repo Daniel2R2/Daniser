@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Daniser!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos Generales */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #258db6, #1b60c7);
+            animation: gradientBG 10s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Contenedor del Login */
+        .login-container {
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px;
+            border-radius: 10px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 1s forwards, slideUp 1s forwards;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(20px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Título */
+        .login-container h2 {
+            font-size: 2rem;
+            color: #d81515;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+            opacity: 0;
+            animation: fadeIn 1s forwards 0.5s;
+        }
+
+        /* Formularios */
+        .login-container form {
+            width: 100%;
+        }
+
+        /* Etiquetas y entradas */
+        .login-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            text-align: left;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1s;
+        }
+
+        .login-container input {
+            width: calc(100% - 20px); /* Se resta el padding */
+            margin: 0 auto 15px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.5s;
+        }
+
+        .login-container input:focus {
+            border-color: #255aaa;
+            outline: none;
+            box-shadow: 0px 0px 10px rgba(76, 175, 80, 0.5);
+        }
+
+        /* Botón */
+        .login-container button {
+            width: 100%;
+            padding: 12px 20px;
+            background: #d83a3a;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 1s forwards 2s;
+        }
+
+        .login-container button:hover {
+            background: #2c68d6;
+        }
+
+        /* Mensaje de éxito */
+        .success-message {
+            display: none;
+            background-color: #4caf50;
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeInMessage 1s forwards;
+        }
+
+        @keyframes fadeInMessage {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Mensaje de error */
+        .error-message {
+            display: none;
+            background-color: #f44336;
+            color: white;
+            font-size: 1.2rem;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeInMessage 1s forwards;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login -->
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm">
+            <div>
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <!-- Mensajes -->
+    <div id="successMessage" class="success-message">
+        ¡Has iniciado sesión satisfactoriamente!
+    </div>
+
+    <div id="errorMessage" class="error-message">
+        Correo o contraseña incorrectos. Por favor, intenta de nuevo.
+    </div>
+
+    <script>
+        // Simulación de usuarios registrados
+        const users = [
+            { email: "danieleduardoramireztrujillo@gmail.com", password: "12345" },
+            { email: "admin@daniser.com", password: "admin123" }
+        ];
+
+        const loginForm = document.getElementById('loginForm');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Comparar las credenciales ingresadas con los usuarios registrados
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                // Mostrar mensaje de éxito y ocultar el formulario
+                successMessage.style.display = 'block';
+                successMessage.style.animation = 'fadeInMessage 1s forwards';
+                document.querySelector('.login-container').style.display = 'none';
+
+                // Redirigir a index.html después de un pequeño retraso
+                setTimeout(function() {
+                    window.location.href = "index.html";
+                }, 2000);
+            } else {
+                // Mostrar mensaje de error
+                errorMessage.style.display = 'block';
+                errorMessage.style.animation = 'fadeInMessage 1s forwards';
+            }
+        });
+    </script>
+
+</body>
+</html>
